@@ -7,6 +7,7 @@ extern "C" {
 #include <QDateTime>
 #include <QDir>
 #include <QSaveFile>
+#include <QStringList>
 
 #include <chrono>
 #include <limits>
@@ -415,6 +416,38 @@ bool SsdvReceiver::rebuildImage()
 	for (int id = 0; id <= last; ++id) {
 		if (packets_.find(std::uint16_t(id)) == packets_.end())
 			missingIds.push_back(std::uint16_t(id));
+	}
+
+	// Keep the raw packets next to the JPEG so a partial image can be
+	// rebuilt later (e.g. merged with packets from another station).
+	{
+		const QString base = image_path_.left(image_path_.lastIndexOf(QLatin1Char('.')));
+		QSaveFile bin(base + QStringLiteral(".bin"));
+		if (bin.open(QIODevice::WriteOnly)) {
+			for (const auto& entry : packets_)
+				bin.write(entry.second);
+			bin.commit();
+		}
+		QSaveFile info(base + QStringLiteral("_packets.txt"));
+		if (info.open(QIODevice::WriteOnly | QIODevice::Text)) {
+			auto list = [](const auto& ids) {
+				QStringList out;
+				for (const auto id : ids)
+					out << QString::number(int(id));
+				return out.join(QLatin1Char(','));
+			};
+			QString text;
+			text += QStringLiteral("satellite: %1\nimage_id: %2\nsize: %3x%4\nquality: %5\n")
+					.arg(satellite_).arg(image_id_).arg(width_).arg(height_).arg(quality_);
+			text += QStringLiteral("packet_size: 218\ncomplete: %1\nreceived: %2\n")
+					.arg(complete_ ? QStringLiteral("yes") : QStringLiteral("no"))
+					.arg(int(packets_.size()));
+			text += QStringLiteral("missing: %1\ncrc_failed: %2\n")
+					.arg(list(missingIds), list(crc_failed_packet_ids_));
+			text += QStringLiteral("order: .bin holds the received 218-byte packets sorted by packet id\n");
+			info.write(text.toUtf8());
+			info.commit();
+		}
 	}
 
 	SsdvImageUpdate update;

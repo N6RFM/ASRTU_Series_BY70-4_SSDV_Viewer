@@ -28,6 +28,9 @@ the full lineage.
 - Configurable output directory (persisted across runs), with the
   detected satellite name included directly in each saved image's
   filename
+- Saves the raw SSDV packets next to every image (`.bin` plus a
+  `_packets.txt` list of received/missing/CRC-failed packet IDs) so
+  partial images can be rebuilt later
 
 ## Building
 
