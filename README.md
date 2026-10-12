@@ -101,12 +101,13 @@ remove them manually:
 
 ```
 sudo rm /usr/local/bin/ASRTU_SSDV_Viewer
-sudo rm -rf /usr/local/bin/translations
+sudo rm /usr/local/bin/translations/ssdv_viewer_en.qm /usr/local/bin/translations/ssdv_viewer_ja.qm
 ```
 
-(worth a quick look inside that `translations/` folder first in case
-anything else you have installed also happens to use that same,
-fairly generic directory name next to `/usr/local/bin`)
+The `translations/` folder itself is left alone because the ASRTU
+decoder suite installs its own files into the same directory. The
+viewer's catalogs use `ssdv_viewer_*` names so the two never overwrite
+each other.
 
 ## Usage
 

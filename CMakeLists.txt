@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(ASRTU_SSDV_Viewer VERSION 1.1.0 LANGUAGES C CXX)
+project(ASRTU_SSDV_Viewer VERSION 1.1.1 LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -47,5 +47,5 @@ target_link_libraries(ASRTU_SSDV_Viewer PRIVATE
     Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Network ssdv_dslwp)
 
 install(TARGETS ASRTU_SSDV_Viewer RUNTIME DESTINATION bin)
-install(FILES assets/translations/asrtu_en.qm assets/translations/asrtu_ja.qm
+install(FILES assets/translations/ssdv_viewer_en.qm assets/translations/ssdv_viewer_ja.qm
     DESTINATION bin/translations)
