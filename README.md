@@ -190,7 +190,7 @@ other people. In particular:
   in `apps/proxy/upload_proxy.cpp` (upstream, not vendored here), the
   same file ASRTU_Series_Receiver's TCP frame source support (used by
   JAMX01/ASRTU-1 external-decode workflows) was later added to.
-- **Philip Heron** ([fsphil](https://github.com/fsphil/ssdv)) — author
+- **Philip Heron** ([fsphil](https://codeberg.org/fsphil/ssdv)) — author
   of the original SSDV protocol and reference codec that all of the
   above (and this tool) ultimately decodes with.
 - **Daniel Estévez, EA4GPZ** ([daniestevez](https://github.com/daniestevez/ssdv)) —
